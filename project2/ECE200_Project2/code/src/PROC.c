@@ -264,8 +264,7 @@ int main(int argc, char * argv[]) {
                         data = data + byteData;
                         loadAddr++;
                         temp++;
-                }
-
+                }		
         }
         if (opcode==0x98000000){ //LWR
 
