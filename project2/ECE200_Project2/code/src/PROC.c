@@ -249,6 +249,13 @@ int main(int argc, char * argv[]) {
                 PC=PC+4;
                 continue;}
         }
+	if (opcode==0x08000000){ //J
+                PC=PC+4;
+                continue;
+        }
+        if (opcode==0x0c000000){ //JAL
+                PC=PC+4;
+                continue;
         if (opcode==0x88000000){ //LWL
 
                 int32_t imme = CurrentInstruction & 0x0000ffff;
@@ -342,12 +349,24 @@ int main(int argc, char * argv[]) {
             newPC = PC + (imme1 << 2);
             on_bit=0;
         }
+	if (opcode1==0x08000000){ //J
+                int32_t ins1 = OldInstruction & 0x03ffffff;
+                newPC = (PC & 0xf0000000) + (ins1 << 2); 
+                on_bit=0;
+        }
+        if (opcode1==0x0c000000){ //JAL
+                int32_t ins1 = OldInstruction & 0x03ffffff;
+                newPC = (PC & 0xf0000000) + (ins1 << 2); 
+                RegFile[31]=PC+4;
+                on_bit=0;
+        }
         if (on_bit==0){
             PC=newPC;
         }
         else if (on_bit==1){
             PC=PC+4;
         }
+	
         
     /********************************/
                 
