@@ -249,6 +249,27 @@ int main(int argc, char * argv[]) {
                 PC=PC+4;
                 continue;}
         }
+        if (opcode==0x88000000){ //LWL
+
+                int32_t imme = CurrentInstruction & 0x0000ffff;
+                loadAddr = RegFile[rs] + imme;
+                int32_t data = 0;
+                int temp = 1;
+                int32_t byteData = 0;
+
+                while ((loadAddr % 4) != 0){
+                        int shift = 32 - 8*temp;
+                        byteData = readByte(loadAddr,false);
+                        byteData = byteData << shift;
+                        data = data + byteData;
+                        loadAddr++;
+                        temp++;
+                }
+
+        }
+        if (opcode==0x98000000){ //LWR
+
+        }            
         //here I want to do the branch delay slot
         int on_bit=1; // check for delay slot, zero means yes, one means no
         uint32_t OldInstruction = readWord(PC-4,false);
