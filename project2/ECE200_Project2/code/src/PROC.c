@@ -259,7 +259,7 @@ int main(int argc, char * argv[]) {
 
                 while ((loadAddr % 4) != 0){
                         int shift = 32 - 8*temp;
-                        byteData = readByte(loadAddr,false);
+                        byteData = (int32_t)readByte(loadAddr,false);
                         byteData = byteData << shift;
                         data = data + byteData;
                         loadAddr++;
