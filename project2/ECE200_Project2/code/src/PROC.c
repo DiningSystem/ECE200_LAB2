@@ -264,7 +264,11 @@ int main(int argc, char * argv[]) {
                         data = data + byteData;
                         loadAddr++;
                         temp++;
-                }		
+                }
+                int shift = 8*temp;
+		RegFile[rt] = RegFile[rt] << shift;
+		RegFile[rt] = RegFile[rt] >> shift;
+		RegFile[rt] = RegFile[rt] + data;
         }
         if (opcode==0x98000000){ //LWR
 
