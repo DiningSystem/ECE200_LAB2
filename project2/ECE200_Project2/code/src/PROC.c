@@ -258,51 +258,51 @@ int main(int argc, char * argv[]) {
                 continue;
         if (opcode==0x88000000){ //LWL
 
-			int32_t imme = CurrentInstruction & 0x0000ffff;
-			loadAddr = RegFile[rs] + imme;
-			int32_t data = 0;
-			int temp = 1; //number of iterations
-			int32_t byteData = 0;
+		int32_t imme = CurrentInstruction & 0x0000ffff;
+		loadAddr = RegFile[rs] + imme;
+		int32_t data = 0;
+		int temp = 1; //number of iterations
+		int32_t byteData = 0;
 
-			do {
-				int shift = 32 - 8*temp;
-				byteData = (int32_t)readByte(loadAddr,false);
-				byteData = byteData << shift;
-				data = data + byteData;
-				loadAddr++;
-				temp++;
-			} while ((loadAddr % 4) != 0);
+		do {
+			int shift = 32 - 8*temp;
+			byteData = (int32_t)readByte(loadAddr,false);
+			byteData = byteData << shift;
+			data = data + byteData;
+			loadAddr++;
+			temp++;
+		} while ((loadAddr % 4) != 0);
 
-			int shift = 8*temp;
-			RegFile[rt] = RegFile[rt] << shift;
-			RegFile[rt] = RegFile[rt] >> shift;
-			RegFile[rt] = RegFile[rt] + data;
+		int shift = 8*temp;
+		RegFile[rt] = RegFile[rt] << shift;
+		RegFile[rt] = RegFile[rt] >> shift;
+		RegFile[rt] = RegFile[rt] + data;
 			
         }
-		if (opcode==0x98000000){ //LWR
-			int32_t imme = CurrentInstruction & 0x0000ffff;
-			loadAddr = RegFile[rs] + imme;
-			int32_t data = 0;
-			int temp = 0; //for shift in data
-			int32_t byteData = 0;
-			
-			startAddr = loadAddr >> 2;
-			startAddr = startAddr << 2;
-			
-			while(startAddr <= loadAddr){
-				int shift = 8*temp;
-				byteData = (int32_t)readByte(loadAddr,false);
-				data = data << shift;
-				data = data + byteData;
-				startAddr++;
-				temp++;
-			}
-			
-			int shift = 8*(temp+1)
-			RegFile[rt] = RegFile[rt] >> shift;
-			RegFile[rt] = RegFile[rt] << shift;
-			RegFile[rt] = RegFile[rt] + data;	
+	if (opcode==0x98000000){ //LWR
+		int32_t imme = CurrentInstruction & 0x0000ffff;
+		loadAddr = RegFile[rs] + imme;
+		int32_t data = 0;
+		int temp = 0; //for shift in data
+		int32_t byteData = 0;
+
+		startAddr = loadAddr >> 2;
+		startAddr = startAddr << 2;
+
+		while(startAddr <= loadAddr){
+			int shift = 8*temp;
+			byteData = (int32_t)readByte(loadAddr,false);
+			data = data << shift;
+			data = data + byteData;
+			startAddr++;
+			temp++;
 		}
+
+		int shift = 8*(temp+1)
+		RegFile[rt] = RegFile[rt] >> shift;
+		RegFile[rt] = RegFile[rt] << shift;
+		RegFile[rt] = RegFile[rt] + data;	
+	}
 		
         //here I want to do the branch delay slot
         int on_bit=1; // check for delay slot, zero means yes, one means no
