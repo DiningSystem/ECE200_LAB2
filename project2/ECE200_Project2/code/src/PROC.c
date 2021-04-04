@@ -264,14 +264,14 @@ int main(int argc, char * argv[]) {
                 int temp = 1;
                 int32_t byteData = 0;
 
-                while ((loadAddr % 4) != 0){
+                do {
                         int shift = 32 - 8*temp;
                         byteData = (int32_t)readByte(loadAddr,false);
                         byteData = byteData << shift;
                         data = data + byteData;
                         loadAddr++;
                         temp++;
-                }
+                } while ((loadAddr % 4) != 0)
                 int shift = 8*temp;
 		RegFile[rt] = RegFile[rt] << shift;
 		RegFile[rt] = RegFile[rt] >> shift;
