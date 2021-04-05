@@ -185,19 +185,19 @@ int main(int argc, char * argv[]) {
             RegFile[rt] = RegFile[rs] + imme;
         }
         if (opcode==0x24000000){ //addiu
-            uint32_t imme = CurrentInstruction & 0x0000ffff;
-            RegFile[rt] = (unsigned)RegFile[rs] + (unsigned)imme;
+            int32_t imme = CurrentInstruction & 0x0000ffff;
+            RegFile[rt] = RegFile[rs] + imme;
         }
         if (opcode==0x30000000){ //andi
-            int32_t imme = CurrentInstruction & 0x0000ffff;
+            uint32_t imme = CurrentInstruction & 0x0000ffff;
             RegFile[rt] = RegFile[rs] & imme;
         }
         if (opcode==0x38000000){ //xori
-            int32_t imme = CurrentInstruction & 0x0000ffff;
+            uint32_t imme = CurrentInstruction & 0x0000ffff;
             RegFile[rt] = RegFile[rs] ^ imme;
         }
         if (opcode==0x34000000){ //ori
-            int32_t imme = CurrentInstruction & 0x0000ffff;
+            uint32_t imme = CurrentInstruction & 0x0000ffff;
             RegFile[rt] = RegFile[rs] | imme;
         }
         if (opcode==0x28000000){ //slti
