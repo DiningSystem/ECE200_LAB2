@@ -298,7 +298,7 @@ int main(int argc, char * argv[]) {
 			temp++;
 		}
 
-		int shift = 8*(temp+1)
+		int shift = 8*(temp+1);
 		RegFile[rt] = RegFile[rt] >> shift;
 		RegFile[rt] = RegFile[rt] << shift;
 		RegFile[rt] = RegFile[rt] + data;	
