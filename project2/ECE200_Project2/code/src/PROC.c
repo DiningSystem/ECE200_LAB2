@@ -303,6 +303,43 @@ int main(int argc, char * argv[]) {
 		RegFile[rt] = RegFile[rt] << shift;
 		RegFile[rt] = RegFile[rt] + data;	
 	}
+	if (opcode==0xA8000000){ //SWL
+		int32_t imme = CurrentInstruction & 0x0000ffff;
+		int32_t storeAddr = RegFile[rs] + imme;
+		int32_t data = RegFile[rt];
+		int32_t offset = storeAddr%4;
+		if(offset == 0 ){
+			writeWord(storeAddr,data,false);
+		}else{
+			int32_t alignedAddr = storeAddr - offset;
+			data = data >> offset;
+			int32_t mem = readWord(alignedAddr, false);
+			memShift = 8*(4 - offset);
+			mem = mem >> shift;
+			mem = mem << shift;
+			data = data + mem;
+			writeWord(alignedAddr,data,false);
+		}
+	}
+	if (opcode==0xB8000000){ //SWR
+		int32_t imme = CurrentInstruction & 0x0000ffff;
+		int32_t storeAddr = RegFile[rs] + imme;
+		int32_t data = RegFile[rt];
+		int32_t offset = storeAddr%4;
+		int32_t alignedAddr = storeAddr - offset;
+		if(offset == 3){
+			writeWord(alignedAddr,data,false);
+		}else{
+			int shift = 8*(3 - offset)
+			data = data << shift;
+			int32_t mem = readWord(alignedAddr, false);
+			int memShift = 8 * (offset+ 1);
+			mem = mem << memShift;
+			mem = mem >> memShift;
+			data = data + mem;
+			writeWord(alignedAddr,data,false);
+		}
+	}
 		
         //here I want to do the branch delay slot
         int on_bit=1; // check for delay slot, zero means yes, one means no
