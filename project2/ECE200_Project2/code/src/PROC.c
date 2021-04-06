@@ -259,7 +259,7 @@ int main(int argc, char * argv[]) {
         if (opcode==0x88000000){ //LWL
 
 		int32_t imme = CurrentInstruction & 0x0000ffff;
-		loadAddr = RegFile[rs] + imme;
+		int32_t loadAddr = RegFile[rs] + imme;
 		int32_t data = 0;
 		int temp = 1; //number of iterations
 		int32_t byteData = 0;
@@ -281,7 +281,7 @@ int main(int argc, char * argv[]) {
         }
 	if (opcode==0x98000000){ //LWR
 		int32_t imme = CurrentInstruction & 0x0000ffff;
-		loadAddr = RegFile[rs] + imme;
+		int32_t loadAddr = RegFile[rs] + imme;
 		int32_t data = 0;
 		int temp = 0; //for shift in data
 		int32_t byteData = 0;
