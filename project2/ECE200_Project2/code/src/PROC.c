@@ -315,8 +315,8 @@ int main(int argc, char * argv[]) {
 			data = data >> offset;
 			int32_t mem = readWord(alignedAddr, false);
 			memShift = 8*(4 - offset);
-			mem = mem >> shift;
-			mem = mem << shift;
+			mem = mem >> memShift;
+			mem = mem << memShift;
 			data = data + mem;
 			writeWord(alignedAddr,data,false);
 		}
