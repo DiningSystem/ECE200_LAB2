@@ -314,7 +314,7 @@ int main(int argc, char * argv[]) {
 			int32_t alignedAddr = storeAddr - offset;
 			data = data >> offset;
 			int32_t mem = readWord(alignedAddr, false);
-			memShift = 8*(4 - offset);
+			int memShift = 8*(4 - offset);
 			mem = mem >> memShift;
 			mem = mem << memShift;
 			data = data + mem;
@@ -330,7 +330,7 @@ int main(int argc, char * argv[]) {
 		if(offset == 3){
 			writeWord(alignedAddr,data,false);
 		}else{
-			int shift = 8*(3 - offset)
+			int shift = 8*(3 - offset);
 			data = data << shift;
 			int32_t mem = readWord(alignedAddr, false);
 			int memShift = 8 * (offset+ 1);
