@@ -76,13 +76,13 @@ int main(int argc, char * argv[]) {
                 RegFile[rd] = RegFile[rs] + RegFile[rt];
             }
             if (funct==33){ //addu
-                RegFile[rd] = (unsigned)RegFile[rs] + (unsigned)RegFile[rt];
+                RegFile[rd] = RegFile[rs] + RegFile[rt];
             }
             if (funct==34){ //sub
                 RegFile[rd] = RegFile[rs] - RegFile[rt];
             }
             if (funct==35){ //subu
-                RegFile[rd] = (unsigned)RegFile[rs] - (unsigned)RegFile[rt];
+                RegFile[rd] = RegFile[rs] - RegFile[rt];
             }
             if (funct==26){ //div
                 lo = RegFile[rs] / RegFile[rt];
@@ -143,8 +143,9 @@ int main(int argc, char * argv[]) {
                 }
             }
             if (funct==0){ //sll
-                int shamt = 0;
+                unsigned int shamt = 0;
                 shamt = CurrentInstruction & 0x000007c0;
+                shamt = shamt >> 6;
                 RegFile[rd] = RegFile[rt] << shamt;
             }
             if (funct==4){ //sllv
@@ -152,8 +153,9 @@ int main(int argc, char * argv[]) {
                 RegFile[rd] = RegFile[rt] << s1;
             }
             if (funct==3){ //sra
-                int shamt = 0;
+                unsigned int shamt = 0;
                 shamt = CurrentInstruction & 0x000007c0;
+                shamt = shamt >> 6;
                 RegFile[rd] = RegFile[rt] >> shamt;
             }
             if (funct==7){ //srav
@@ -161,8 +163,9 @@ int main(int argc, char * argv[]) {
                 RegFile[rd] = RegFile[rt] >> s1;
             }
             if (funct==2){ //srl
-                int shamt = 0;
+                unsigned int shamt = 0;
                 shamt = CurrentInstruction & 0x000007c0;
+                shamt = shamt >> 6;
                 RegFile[rd] = (unsigned) RegFile[rt] >> shamt;
             }
             if (funct==6){ //srlv
@@ -281,14 +284,14 @@ int main(int argc, char * argv[]) {
                 int32_t addr= RegFile[rs] + imme;
                 RegFile[rt] = readByte(addr, false);
                 int8_t nextbyte = readByte(addr+4, false);
-                RegFile[rt] = RegFile[rt] + (nextbyte << 8);  
+                RegFile[rt] = RegFile[rt] + (nextbyte << 4);  
         }
         if (opcode==0x94000000){ //LHU
                 int32_t imme = CurrentInstruction & 0x0000ffff;
                 int32_t addr= RegFile[rs] + imme;
                 RegFile[rt] = (unsigned)readByte(addr, false);
                 int8_t nextbyte = (unsigned)readByte(addr+4, false);
-                RegFile[rt] = RegFile[rt] + (nextbyte << 8);  
+                RegFile[rt] = RegFile[rt] + (nextbyte << 4);  
         }
         if (opcode==0x8c000000){ //LW
                 int32_t imme = CurrentInstruction & 0x0000ffff;
@@ -304,7 +307,7 @@ int main(int argc, char * argv[]) {
                 int32_t imme = CurrentInstruction & 0x0000ffff;
                 int32_t addr= RegFile[rs] + imme;
                 int8_t firstbyte = RegFile[rt] & 0x000000ff;
-                int8_t secondbyte = (RegFile[rt] & (0x0000ff00)) >> 8;
+                int8_t secondbyte = (RegFile[rt] & (0x0000ff00)) >> 4;
                 writeByte(addr,firstbyte, false);
                 writeByte(addr+4,secondbyte, false);
         }
