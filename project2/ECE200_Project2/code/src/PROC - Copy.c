@@ -266,8 +266,7 @@ int main(int argc, char * argv[]) {
                 continue;
         }
         if (opcode==0x3c000000){ //LUI
-                int32_t imme = CurrentInstruction & 0x0000ffff;
-                RegFile[rt] = imme << 16;
+                RegFile[rt] = (RegFile[rt] & 0x00000000) + ((CurrentInstruction & 0x0000ffff) << 16);
         }
         if (opcode==0x80000000){ //LB
                 int32_t imme = CurrentInstruction & 0x0000ffff;
