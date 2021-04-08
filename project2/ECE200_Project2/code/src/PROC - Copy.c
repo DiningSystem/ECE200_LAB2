@@ -270,49 +270,49 @@ int main(int argc, char * argv[]) {
         }
         if (opcode==0x80000000){ //LB
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 RegFile[rt] = readByte(addr, false);
         }
         if (opcode==0x90000000){ //LBU
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 RegFile[rt] = (unsigned)readByte(addr, false);
         }
         if (opcode==0x84000000){ //LH
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 RegFile[rt] = readByte(addr, false);
-                int8_t nextbyte = readByte(addr+4, false);
-                RegFile[rt] = RegFile[rt] + (nextbyte << 4);  
+                int8_t nextbyte = readByte(addr+1, false);
+                RegFile[rt] = RegFile[rt] + (nextbyte << 8);  
         }
         if (opcode==0x94000000){ //LHU
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 RegFile[rt] = (unsigned)readByte(addr, false);
-                int8_t nextbyte = (unsigned)readByte(addr+4, false);
-                RegFile[rt] = RegFile[rt] + (nextbyte << 4);  
+                int8_t nextbyte = (unsigned)readByte(addr+1, false);
+                RegFile[rt] = RegFile[rt] + (nextbyte << 8);  
         }
         if (opcode==0x8c000000){ //LW
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 RegFile[rt] = readWord(addr, false);
         }
         if (opcode==0xa0000000){ //SB
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 writeByte(addr,RegFile[rt], false);
         }
         if (opcode==0xa4000000){ //SH
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 int8_t firstbyte = RegFile[rt] & 0x000000ff;
-                int8_t secondbyte = (RegFile[rt] & (0x0000ff00)) >> 4;
+                int8_t secondbyte = (RegFile[rt] & (0x0000ff00)) >> 8;
                 writeByte(addr,firstbyte, false);
-                writeByte(addr+4,secondbyte, false);
+                writeByte(addr+1,secondbyte, false);
         }
         if (opcode==0xac000000){ //SW
                 int32_t imme = CurrentInstruction & 0x0000ffff;
-                int32_t addr= RegFile[rs] + imme;
+                uint32_t addr= RegFile[rs] + imme;
                 writeWord(addr,RegFile[rt], false);
         }
          if (opcode==0x88000000){ //LWL
