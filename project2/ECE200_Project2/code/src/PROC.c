@@ -267,6 +267,7 @@ int main(int argc, char * argv[]) {
 		do {
 			int shift = 32 - 8*temp;
 			byteData = (int32_t)readByte(loadAddr,false);
+			byteData = byteData & 0x000000ff;
 			byteData = byteData << shift;
 			data = data + byteData;
 			loadAddr++;
@@ -292,6 +293,7 @@ int main(int argc, char * argv[]) {
 		while(startAddr <= loadAddr){
 			int shift = 8*temp;
 			byteData = (int32_t)readByte(loadAddr,false);
+			byteData = byteData & 0x000000ff;
 			data = data << shift;
 			data = data + byteData;
 			startAddr++;
