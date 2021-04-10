@@ -439,7 +439,6 @@ int main(int argc, char * argv[]) {
         opcode1 = opcode1 >> 26;
         rs1 = rs1 >> 21;
         rt1 = rt1 >> 16;*/
-        opcode = opcode >> 26;
         if (opcode==0){ //R-type
             //unsigned int rd1 = OldInstruction & 0x0000f100;
             //rd1 = rd1 >> 11;
