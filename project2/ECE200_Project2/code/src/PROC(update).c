@@ -141,10 +141,10 @@ int main(int argc, char * argv[]) {
             }
             if (funct==0b101011){ //sltu
                 if ((unsigned)RegFile[rs] < (unsigned)RegFile[rt]) {
-                RegFile[rd] = 0;
+                RegFile[rd] = 1;
                 } 
                 else {
-                RegFile[rd] = 1;
+                RegFile[rd] = 0;
                 }
             }
             if (funct==0b000000){ //sll
