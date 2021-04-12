@@ -356,8 +356,8 @@ int main(int argc, char * argv[]) {
 
 		int32_t imme = CurrentInstruction & 0x0000ffff;
 		imme <<=16;
-        imme >>=16;
-        uint32_t loadAddr= RegFile[rs] + imme;
+        	imme >>=16;
+        	uint32_t loadAddr= RegFile[rs] + imme;
 		int32_t data = 0;
 		int temp = 1; //number of iterations
 		int32_t byteData = 0;
@@ -380,8 +380,8 @@ int main(int argc, char * argv[]) {
 	if (opcode==0x98000000){ //LWR
 		int32_t imme = CurrentInstruction & 0x0000ffff;
 		imme <<=16;
-        imme >>=16;
-        uint32_t loadAddr= RegFile[rs] + imme;
+        	imme >>=16;
+        	uint32_t loadAddr= RegFile[rs] + imme;
 		int32_t data = 0;
 		int temp = 0; //for shift in data
 		int32_t byteData = 0;
@@ -408,16 +408,16 @@ int main(int argc, char * argv[]) {
         imme <<=16;
         imme >>=16;
 		uint32_t storeAddr = RegFile[rs] + imme;
-		int32_t data = RegFile[rt];
+		uint32_t data = (uint32_t) RegFile[rt];
 		int32_t offset = storeAddr%4;
 		if(offset == 0 ){
 			writeWord(storeAddr,data,false);
 		}else{
 			uint32_t alignedAddr = storeAddr - offset;
 			data = data >> offset;
-			int32_t mem = readWord(alignedAddr, false);
+			uint32_t mem = readWord(alignedAddr, false);
 			int memShift = 8*(4 - offset);
-			mem = (uint32_t)(mem >> memShift);
+			mem = mem >> memShift;
 			mem = mem << memShift;
 			data = data + mem;
 			writeWord(alignedAddr,data,false);
@@ -425,10 +425,10 @@ int main(int argc, char * argv[]) {
 	}
 	if (opcode==0xB8000000){ //SWR
 		int32_t imme = CurrentInstruction & 0x0000ffff;
-        imme <<=16;
-        imme >>=16;
+        	imme <<=16;
+        	imme >>=16;
 		uint32_t storeAddr = RegFile[rs] + imme;
-		int32_t data = RegFile[rt];
+		uint32_t data = RegFile[rt];
 		int32_t offset = storeAddr%4;
 		uint32_t alignedAddr = storeAddr - offset;
 		if(offset == 3){
@@ -436,9 +436,9 @@ int main(int argc, char * argv[]) {
 		}else{
 			int shift = 8*(3 - offset);
 			data = data << shift;
-			int32_t mem = readWord(alignedAddr, false);
+			uint32_t mem = readWord(alignedAddr, false);
 			int memShift = 8 * (offset+ 1);
-			mem = (uint32_t)(mem << memShift);
+			mem = mem << memShift;
 			mem = mem >> memShift;
 			data = data + mem;
 			writeWord(alignedAddr,data,false);
