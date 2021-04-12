@@ -372,11 +372,11 @@ int main(int argc, char * argv[]) {
 		} while ((loadAddr % 4) != 0);
 
 		int shift = 8*temp;
-		RegFile[rt] = RegFile[rt] << shift;
+		RegFile[rt] = (uint32_t)(RegFile[rt] << shift);
 		RegFile[rt] = RegFile[rt] >> shift;
-		RegFile[rt] = RegFile[rt] + data;
-			
+		RegFile[rt] = RegFile[rt] + data;	
         }
+	    
 	if (opcode==0x98000000){ //LWR
 		int32_t imme = CurrentInstruction & 0x0000ffff;
 		imme <<=16;
@@ -386,7 +386,7 @@ int main(int argc, char * argv[]) {
 		int temp = 0; //for shift in data
 		int32_t byteData = 0;
 
-		int startAddr = loadAddr >> 2;
+		uint32_t startAddr = loadAddr >> 2;
 		startAddr = startAddr << 2;
 
 		while(startAddr <= loadAddr){
@@ -399,7 +399,7 @@ int main(int argc, char * argv[]) {
 		}
 
 		int shift = 8*(temp+1);
-		RegFile[rt] = RegFile[rt] >> shift;
+		RegFile[rt] = (uint32_t)RegFile[rt] >> shift;
 		RegFile[rt] = RegFile[rt] << shift;
 		RegFile[rt] = RegFile[rt] + data;	
 	}
@@ -413,7 +413,7 @@ int main(int argc, char * argv[]) {
 		if(offset == 0 ){
 			writeWord(storeAddr,data,false);
 		}else{
-			int32_t alignedAddr = storeAddr - offset;
+			uint32_t alignedAddr = storeAddr - offset;
 			data = data >> offset;
 			int32_t mem = readWord(alignedAddr, false);
 			int memShift = 8*(4 - offset);
@@ -430,7 +430,7 @@ int main(int argc, char * argv[]) {
 		uint32_t storeAddr = RegFile[rs] + imme;
 		int32_t data = RegFile[rt];
 		int32_t offset = storeAddr%4;
-		int32_t alignedAddr = storeAddr - offset;
+		uint32_t alignedAddr = storeAddr - offset;
 		if(offset == 3){
 			writeWord(alignedAddr,data,false);
 		}else{
