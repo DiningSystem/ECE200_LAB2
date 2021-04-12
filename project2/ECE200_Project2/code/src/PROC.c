@@ -417,7 +417,7 @@ int main(int argc, char * argv[]) {
 			data = data >> offset;
 			int32_t mem = readWord(alignedAddr, false);
 			int memShift = 8*(4 - offset);
-			mem = mem >> memShift;
+			mem = (uint32_t)(mem >> memShift);
 			mem = mem << memShift;
 			data = data + mem;
 			writeWord(alignedAddr,data,false);
@@ -438,7 +438,7 @@ int main(int argc, char * argv[]) {
 			data = data << shift;
 			int32_t mem = readWord(alignedAddr, false);
 			int memShift = 8 * (offset+ 1);
-			mem = mem << memShift;
+			mem = (uint32_t)(mem << memShift);
 			mem = mem >> memShift;
 			data = data + mem;
 			writeWord(alignedAddr,data,false);
