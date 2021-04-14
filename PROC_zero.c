@@ -70,23 +70,23 @@ int main(int argc, char * argv[]) {
         funct= CurrentInstruction & 0x0000003f;
         rs = CurrentInstruction & 0x03e00000;
         rt = CurrentInstruction & 0x001f0000;
-	rd = CurrentInstruction & 0x0000f800;
+		rd = CurrentInstruction & 0x0000f800;
         printf("%X\n",CurrentInstruction);
-	printf("%X\n",PC);
+		printf("%X\n",PC);
         rs = rs >> 21;
         rt = rt >> 16;
-	rd = rd >> 11;
-        if (opcode == 0 && rd != 0){ //R-type
-            if (funct==0b100000){ //add
+		rd = rd >> 11;
+        if (opcode == 0){ //R-type
+            if (funct==0b100000 && rd != 0){ //add
                 RegFile[rd] = RegFile[rs] + RegFile[rt];
             }
-            else if (funct==0b100001){ //addu
+            else if (funct==0b100001 && rd != 0){ //addu
                 RegFile[rd] = RegFile[rs] + RegFile[rt];
             }
-            else if (funct==0b100010){ //sub
+            else if (funct==0b100010 && rd != 0){ //sub
                 RegFile[rd] = RegFile[rs] - RegFile[rt];
             }
-            else if (funct==0b100011){ //subu
+            else if (funct==0b100011 && rd != 0){ //subu
                 RegFile[rd] = RegFile[rs] - RegFile[rt];
             }
             else if (funct==0b011010){ //div
@@ -107,10 +107,10 @@ int main(int argc, char * argv[]) {
                 lo = (uint32_t)a & 0x00000000ffffffff;
                 hi = (uint32_t)((a>>32) & 0x00000000ffffffff);
             }
-            else if (funct==0b010000){ //mfhi
+            else if (funct==0b010000 && rd != 0){ //mfhi
                 RegFile[rd]=hi;
             }
-            else if (funct==0b010010){ //mflo
+            else if (funct==0b010010 && rd != 0){ //mflo
                 RegFile[rd]=lo;
             }
             else if (funct==0b010001){ //mthi
@@ -119,19 +119,19 @@ int main(int argc, char * argv[]) {
             else if (funct==0b010011){ //mtlo
                 lo=RegFile[rs];
             }
-            else if (funct==0b100100){ //and
+            else if (funct==0b100100 && rd != 0){ //and
                 RegFile[rd] = RegFile[rs] & RegFile[rt];
             }
-            else if (funct==0b100110){ //xor
+            else if (funct==0b100110 && rd != 0){ //xor
                 RegFile[rd] = RegFile[rs] ^ RegFile[rt];
             }
-            else if (funct==0b100111){ //nor
+            else if (funct==0b100111 && rd != 0){ //nor
                 RegFile[rd] = ~(RegFile[rs] | RegFile[rt]);
             }
-            else if (funct==0b100101){ //or
+            else if (funct==0b100101 && rd != 0){ //or
                 RegFile[rd] = RegFile[rs] | RegFile[rt];
             }
-            else if (funct==0b101010){ //slt
+            else if (funct==0b101010 && rd != 0){ //slt
                 if( RegFile[rs] < RegFile[rt]){
                     RegFile[rd]=1;
                 }
@@ -139,7 +139,7 @@ int main(int argc, char * argv[]) {
                     RegFile[rd]=0;
                 }
             }
-            else if (funct==0b101011){ //sltu
+            else if (funct==0b101011 && rd != 0){ //sltu
                 if ((unsigned)RegFile[rs] < (unsigned)RegFile[rt]) {
                 RegFile[rd] = 1;
                 } 
@@ -147,33 +147,33 @@ int main(int argc, char * argv[]) {
                 RegFile[rd] = 0;
                 }
             }
-            else if (funct==0b000000){ //sll
+            else if (funct==0b000000 && rd != 0){ //sll
                 unsigned int shamt = 0;
                 shamt = CurrentInstruction & 0x000007c0;
                 shamt = shamt >> 6;
                 RegFile[rd] = RegFile[rt] << shamt;
             }
-            else if (funct==0b000100){ //sllv
+            else if (funct==0b000100 && rd != 0){ //sllv
                 unsigned int s1 = RegFile[rs];
                 RegFile[rd] = RegFile[rt] << s1;
             }
-            else if (funct==0b000011){ //sra
+            else if (funct==0b000011 && rd != 0){ //sra
                 unsigned int shamt = 0;
                 shamt = CurrentInstruction & 0x000007c0;
                 shamt = shamt >> 6;
                 RegFile[rd] = RegFile[rt] >> shamt;
             }
-            else if (funct==0b000111){ //srav
+            else if (funct==0b000111 && rd != 0){ //srav
                 unsigned int s1 = RegFile[rs];
                 RegFile[rd] = RegFile[rt] >> s1;
             }
-            else if (funct==0b000010){ //srl
+            else if (funct==0b000010 && rd != 0){ //srl
                 unsigned int shamt = 0;
                 shamt = CurrentInstruction & 0x000007c0;
                 shamt = shamt >> 6;
                 RegFile[rd] = (unsigned) RegFile[rt] >> shamt;
             }
-            else if (funct==0b000110){ //srlv
+            else if (funct==0b000110 && rd != 0){ //srlv
                 unsigned int s1 = RegFile[rs];
                 RegFile[rd] = (unsigned) RegFile[rt] >> s1;
             }
@@ -189,7 +189,7 @@ int main(int argc, char * argv[]) {
                 uint32_t v1 = RegFile [2];
                 SyscallExe(v1);
             }
-            else if (funct==0b001001){ //jalr
+            else if (funct==0b001001 && rd != 0){ //jalr
                 
                 RegFile[rd] = PC + 8;
                 newPC = RegFile[rs];
